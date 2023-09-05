@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Boxes</title>
+    <script>
+        function toggleBoxes(show) {
+            var boxes = document.getElementById('boxes');
+            var selectBtn = document.getElementById('selectBoxButton');
+            var closeBtn = document.getElementById('closeButton');
+            
+            if (show) {
+                boxes.style.display = 'block';
+                closeBtn.style.display = 'block';
+                selectBtn.style.display = 'none';
+            } else {
+                boxes.style.display = 'none';
+                closeBtn.style.display = 'none';
+                selectBtn.style.display = 'block';
+            }
+        }
+    </script>
+</head>
+<body>
+    <button id="selectBoxButton" onclick="toggleBoxes(true)">Select Box</button>
+    
+    <div id="boxes" style="display:none;">
+        <form method="post">
+            {% csrf_token %}
+            {% for i in "123456"|make_list %}
+            <div style="border:1px solid black; display:inline-block; margin:10px; padding:20px;">
+                Box {{ i }}
+                <button type="submit" name="box_value" value="Box {{ i }} Value">Click Me!</button>
+            </div>
+            {% endfor %}
+        </form>
+    </div>
+    
+    <button id="closeButton" style="display:none;" onclick="toggleBoxes(false)">Close</button>
+    
+    <!-- Display the message when available -->
+    {% if message %}
+    <div style="margin-top: 20px; font-weight: bold;">
+        {{ message }}
+    </div>
+    {% endif %}
+</body>
+</html>
