@@ -19,24 +19,26 @@
             }
         }
     </script>
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'boxes.css' %}">
 </head>
-<body>
+<body class="container">
     <button id="selectBoxButton" onclick="toggleBoxes(true)">Select Box</button>
     
-    <div id="boxes" style="display:none;">
-        <form method="post">
+    <div id="boxes" style="display:none;" >
+        <form method="post" class="box">
             {% csrf_token %}
-            {% for i in "123456"|make_list %}
-            <div style="border:1px solid black; display:inline-block; margin:10px; padding:20px;">
-                Box {{ i }}
-                <button type="submit" name="box_value" value="Box {{ i }} Value">Click Me!</button>
+            {% for description in box_descriptions %}
+            <div class="box-item" data-index="{{ forloop.counter }}">
+                <div class="box-description">{{ description }}</div>
+                {% load static %} <img src="{% static 'media/card.jpeg' %}" alt="card" style="max-width: 450px; height: 120px;">
+                <button type="submit" name="box_value" value="Box {{ forloop.counter }} Value">Purchase Me!</button>
             </div>
             {% endfor %}
         </form>
+        <button id="closeButton" style="display:none;" onclick="toggleBoxes(false)">Close</button>
+        
     </div>
-    
-    <button id="closeButton" style="display:none;" onclick="toggleBoxes(false)">Close</button>
-    
     <!-- Display the message when available -->
     {% if message %}
     <div style="margin-top: 20px; font-weight: bold;">
